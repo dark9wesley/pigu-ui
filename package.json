@@ -11,7 +11,8 @@
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "prepare": "husky install"
   },
   "module": "es/index.js",
   "typings": "es/index.d.ts",
@@ -36,9 +37,11 @@
     "@umijs/fabric": "^2.8.1",
     "@umijs/test": "^3.0.5",
     "dumi": "^1.1.0",
+    "dumi-theme-mobile": "^1.1.18",
     "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",
-    "lint-staged": "^10.0.7",
+    "husky": "^7.0.4",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "yorkie": "^2.0.0"
   }
