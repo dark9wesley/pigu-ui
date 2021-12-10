@@ -12,9 +12,4 @@
   </Button>
 ```
 
-```tsx
-import React from 'react';
-// import { Button } from './index.tsx';
-
-export default () => <button>1</button>;
-```
+<code src="./demos/demo1.tsx" ></code>

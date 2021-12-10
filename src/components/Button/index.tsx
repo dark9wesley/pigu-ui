@@ -1,7 +1,4 @@
-import React from 'react';
-
-const Button = () => {
-  return <button>1</button>;
-};
+import './button.less';
+import { Button } from './button';
 
 export default Button;

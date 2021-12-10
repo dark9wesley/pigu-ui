@@ -1,0 +1,100 @@
+@class-prefix-button: ~'pigu-button';
+
+.@{class-prefix-button} {
+  --text-color: var(--pigu-button-text-color, var(--pigu-color-text));
+  --background-color: var(--pigu-button-bg-color, var(--pigu-color-defalut));
+  --border-radius: var(--pigu-button-border-radius, 4px);
+
+  position: relative;
+  display: inline-block;
+  height: auto;
+  padding: 7px 16px;
+  color: var(--text-color);
+  font-size: 15px;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-align: center;
+  background-color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  outline: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s, background-color 0.25s;
+  user-select: none;
+  will-change: box-shadow;
+
+  &:active {
+    box-shadow: 0 3px 5px -1px var(--shadow-key-umbra-opacity),
+      0 5px 8px 0 var(--shadow-key-penumbra-opacity), 0 1px 14px 0 var(--shadow-key-ambient-opacity);
+  }
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    border: inherit;
+    border-color: #000;
+    border-radius: inherit;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    content: ' ';
+  }
+  &:active::before {
+    opacity: 0.1;
+  }
+
+  &:not(&-default):not(&-disabled) {
+    --text-color: var(--pigu-color-white);
+  }
+
+  &-primary {
+    --background-color: var(--pigu-color-primary);
+  }
+
+  &-info {
+    --background-color: var(--pigu-color-info);
+  }
+
+  &-success {
+    --background-color: var(--pigu-color-success);
+  }
+
+  &-warning {
+    --background-color: var(--pigu-color-warning);
+  }
+
+  &-danger {
+    --background-color: var(--pigu-color-danger);
+  }
+
+  &-mini {
+    padding: 3px 7px;
+    font-size: 13px;
+  }
+
+  &-small {
+    padding: 3px 11px;
+    font-size: 15px;
+  }
+
+  &-large {
+    padding: 11px 22px;
+    font-size: 18px;
+  }
+
+  &-block {
+    display: block;
+    width: 100%;
+  }
+
+  &-disabled {
+    box-shadow: none !important;
+    cursor: not-allowed;
+    --text-color: var(--pigu-color-disabled-text);
+    --background-color: var(--pigu-color-disabled);
+  }
+}
