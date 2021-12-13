@@ -10,15 +10,21 @@ type ButtonProps = {
   block?: boolean;
   outline?: boolean;
   text?: boolean;
-  color?: string;
-  textColor?: string;
-  round?: string;
-} & NativeProps<'--pigu-button-text-color' | '--pigu-button-bg-color'>;
+  round?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+} & NativeProps<
+  | '--text-color'
+  | '--background-color'
+  | '--border-radius'
+  | '--border-width'
+  | '--border-style'
+  | '--border-color'
+>;
 
 const classPrefix = 'pigu-button';
 
 export const Button: React.FC<ButtonProps> = (props) => {
-  const { children, type, size, block, disabled } = props;
+  const { children, type, size, block, disabled, text, outline, round, onClick } = props;
 
   const classes = classNames(
     `${classPrefix}`,
@@ -27,13 +33,17 @@ export const Button: React.FC<ButtonProps> = (props) => {
       [`${classPrefix}-${size}`]: size,
       [`${classPrefix}-block`]: block,
       [`${classPrefix}-disabled`]: disabled,
+      [`${classPrefix}-text`]: text,
+      [`${classPrefix}-text-${type}`]: text,
+      [`${classPrefix}-outline`]: outline,
+      [`${classPrefix}-round`]: round,
     },
     'pigu-elevation--2',
   );
 
   return withNativeProps(
     props,
-    <button className={classes} disabled={disabled}>
+    <button className={classes} disabled={disabled} onClick={onClick}>
       {children}
     </button>,
   );

@@ -1,9 +1,12 @@
 @class-prefix-button: ~'pigu-button';
 
 .@{class-prefix-button} {
-  --text-color: var(--pigu-button-text-color, var(--pigu-color-text));
-  --background-color: var(--pigu-button-bg-color, var(--pigu-color-defalut));
-  --border-radius: var(--pigu-button-border-radius, 4px);
+  --text-color: var(--pigu-color-text);
+  --background-color: var(--pigu-color-defalut);
+  --border-radius: 4px;
+  --border-width: thin;
+  --border-style: solid;
+  --border-color: currentColor;
 
   position: relative;
   display: inline-block;
@@ -35,7 +38,7 @@
     box-sizing: content-box;
     width: 100%;
     height: 100%;
-    background-color: #000;
+    background-color: currentColor;
     border: inherit;
     border-color: #000;
     border-radius: inherit;
@@ -47,43 +50,66 @@
     opacity: 0.1;
   }
 
-  &:not(&-default):not(&-disabled) {
-    --text-color: var(--pigu-color-white);
-  }
-
   &-primary {
+    --text-color: var(--pigu-color-white);
     --background-color: var(--pigu-color-primary);
   }
 
   &-info {
+    --text-color: var(--pigu-color-white);
     --background-color: var(--pigu-color-info);
   }
 
   &-success {
+    --text-color: var(--pigu-color-white);
     --background-color: var(--pigu-color-success);
   }
 
   &-warning {
+    --text-color: var(--pigu-color-white);
     --background-color: var(--pigu-color-warning);
   }
 
   &-danger {
+    --text-color: var(--pigu-color-white);
     --background-color: var(--pigu-color-danger);
   }
 
   &-mini {
     padding: 3px 7px;
     font-size: 13px;
+
+    &.@{class-prefix-button}-round {
+      width: 28px;
+      height: 28px;
+    }
   }
 
   &-small {
     padding: 3px 11px;
     font-size: 15px;
+
+    &.@{class-prefix-button}-round {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  &-normal {
+    &.@{class-prefix-button}-round {
+      width: 44px;
+      height: 44px;
+    }
   }
 
   &-large {
     padding: 11px 22px;
     font-size: 18px;
+
+    &.@{class-prefix-button}-round {
+      width: 52px;
+      height: 52px;
+    }
   }
 
   &-block {
@@ -96,5 +122,40 @@
     cursor: not-allowed;
     --text-color: var(--pigu-color-disabled-text);
     --background-color: var(--pigu-color-disabled);
+  }
+
+  &-text {
+    box-shadow: none !important;
+    --background-color: var(--pigu-color-transparent);
+  }
+
+  &-text-primary {
+    --text-color: var(--pigu-color-primary);
+  }
+
+  &-text-info {
+    --text-color: var(--pigu-color-info);
+  }
+
+  &-text-success {
+    --text-color: var(--pigu-color-success);
+  }
+
+  &-text-warning {
+    --text-color: var(--pigu-color-warning);
+  }
+
+  &-text-danger {
+    --text-color: var(--pigu-color-danger);
+  }
+
+  &-outline {
+    border: var(--border-width) var(--border-style) var(--border-color);
+  }
+
+  &-round {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 50%;
   }
 }
