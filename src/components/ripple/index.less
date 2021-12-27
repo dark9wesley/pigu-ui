@@ -1,0 +1,23 @@
+.ripple-enter {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.ripple-enter-active {
+  transform: scale(1);
+  opacity: 0.5;
+  transition: opacity 0.08s linear, transform 0.2s cubic-bezier(0.68, 0.01, 0.62, 0.6);
+}
+
+.ripple-enter-done {
+  opacity: 0.5;
+}
+
+.ripple-exit {
+  opacity: 0.5;
+}
+
+.ripple-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
