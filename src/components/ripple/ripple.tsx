@@ -1,35 +1,23 @@
 import React from 'react';
+import classNames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import './index.less';
 
 interface RippleProps {
-  in: boolean;
-  timeout?: number;
-  wrapperStyle?: React.CSSProperties;
-  activeStyles?: React.CSSProperties;
+  show: boolean;
+  rippleStyle: React.CSSProperties | undefined;
 }
 
-const Ripple: React.FC<RippleProps> = (props) => {
+const Ripple: React.FC<RippleProps> = ({ show, rippleStyle }) => {
+  // const classes = classNames('ripple', {
+  //   'ripple-show': show,
+  //   'ripple-hide': !show,
+  // });
+
   return (
-    <div
-      style={{
-        position: 'absolute',
-        overflow: 'hidden',
-        ...props.wrapperStyle,
-        pointerEvents: 'none',
-      }}
-    >
-      <CSSTransition in={props.in} classNames="ripple" timeout={300} unmountOnExit>
-        <div
-          style={{
-            position: 'absolute',
-            borderRadius: '50%',
-            pointerEvents: 'none',
-            ...props.activeStyles,
-          }}
-        />
-      </CSSTransition>
-    </div>
+    <CSSTransition in={show} classNames="ripple" timeout={500} unmountOnExit>
+      <div className="ripple" style={{ ...rippleStyle }} />
+    </CSSTransition>
   );
 };
 

@@ -11,7 +11,7 @@ export default () => {
       {/* <Ripple in={rippleVisible} />
       <Button onClick={() => setRippleVisible(!rippleVisible)}>111</Button> */}
       <RipperWrapper>
-        <Button size="large" type="primary">
+        <Button size="large" type="primary" style={{ position: 'absolute', top: 100 }}>
           按钮
         </Button>
       </RipperWrapper>
