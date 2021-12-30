@@ -1,16 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Ripple from './ripple';
-import { TransitionGroup } from 'react-transition-group';
 
 interface RipperWrapperProps {}
 
 const RipperWrapper: React.FC<RipperWrapperProps> = ({ children }) => {
-  const [rippleStyle, setRippleStyle] = useState<React.CSSProperties | undefined>(undefined);
   const [rippleWrapperStyle, setRippleWrapperStyle] = useState<React.CSSProperties | undefined>(
     undefined,
   );
-  const [rippleShow, setRippleShow] = useState(false);
-  const [rippleArray, setRippleArray] = useState([]);
+  const [rippleArray, setRippleArray] = useState<JSX.Element[]>([]);
 
   // 获取目标style
   const getTargetStyle = (target: Element) => {
@@ -79,19 +76,26 @@ const RipperWrapper: React.FC<RipperWrapperProps> = ({ children }) => {
     const y = e.clientY - rectY;
     // 获取ripple半径
     const rippleRadius = getlongest(e.clientX, e.clientY, top, right, bottom, left);
-    setRippleStyle({
-      top: y - rippleRadius,
-      left: x - rippleRadius,
-      width: rippleRadius * 2,
-      height: rippleRadius * 2,
-      backgroundColor: color,
-    });
 
-    setRippleShow(true);
+    setRippleArray([
+      ...rippleArray,
+      <Ripple
+        rippleStyle={{
+          top: y - rippleRadius,
+          left: x - rippleRadius,
+          width: rippleRadius * 2,
+          height: rippleRadius * 2,
+          backgroundColor: color,
+        }}
+      />,
+    ]);
   };
 
   const handleUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    setRippleShow(false);
+    // setTimeout(() => {
+    //   rippleArray.pop();
+    //   setRippleArray([...rippleArray]);
+    // }, 800);
   };
 
   return (
@@ -104,7 +108,7 @@ const RipperWrapper: React.FC<RipperWrapperProps> = ({ children }) => {
           ...rippleWrapperStyle,
         }}
       >
-        <Ripple show={rippleShow} rippleStyle={rippleStyle} />
+        {rippleArray.map((ripple) => ripple)}
       </div>
       {children}
     </div>
