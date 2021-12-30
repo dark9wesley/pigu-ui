@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Ripple from './ripple';
+import { v4 as uuidv4 } from 'uuid';
 
 interface RipperWrapperProps {}
 
+interface RippleArray {
+  id: string;
+  isDone: boolean;
+  rippleElement: JSX.Element;
+}
+
 const RipperWrapper: React.FC<RipperWrapperProps> = ({ children }) => {
+  const [isDown, setIsDown] = useState(false);
+  const [hideIds, setHideIds] = useState<string[]>([]);
+  const [rippleArray, setRippleArray] = useState<RippleArray[]>([]);
   const [rippleWrapperStyle, setRippleWrapperStyle] = useState<React.CSSProperties | undefined>(
     undefined,
   );
-  const [rippleArray, setRippleArray] = useState<JSX.Element[]>([]);
 
   // 获取目标style
   const getTargetStyle = (target: Element) => {
@@ -50,6 +59,8 @@ const RipperWrapper: React.FC<RipperWrapperProps> = ({ children }) => {
   };
 
   const handleDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setIsDown(true);
+
     // 获取目标style并赋值给rippleWrapper
     const {
       width,
@@ -77,27 +88,71 @@ const RipperWrapper: React.FC<RipperWrapperProps> = ({ children }) => {
     // 获取ripple半径
     const rippleRadius = getlongest(e.clientX, e.clientY, top, right, bottom, left);
 
+    const id = uuidv4();
+
     setRippleArray([
       ...rippleArray,
-      <Ripple
-        rippleStyle={{
-          top: y - rippleRadius,
-          left: x - rippleRadius,
-          width: rippleRadius * 2,
-          height: rippleRadius * 2,
-          backgroundColor: color,
-        }}
-      />,
+      {
+        isDone: false,
+        id,
+        rippleElement: (
+          <Ripple
+            key={id}
+            id={id}
+            animationEndCallBack={animationEndCallBack}
+            rippleStyle={{
+              top: y - rippleRadius,
+              left: x - rippleRadius,
+              width: rippleRadius * 2,
+              height: rippleRadius * 2,
+              backgroundColor: color,
+            }}
+          />
+        ),
+      },
     ]);
   };
 
+  const animationEndCallBack = (id: string) => {
+    setHideIds([...hideIds, id]);
+    // console.log(rippleArray, 'newRippleArray');
+    // const newRippleArray = rippleArray.map((item) => ({
+    //   ...item,
+    //   isDone: id === item.id,
+    // }));
+    // setRippleArray(newRippleArray);
+  };
+
   const handleUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setIsDown(false);
     // setTimeout(() => {
     //   rippleArray.pop();
     //   setRippleArray([...rippleArray]);
     // }, 800);
   };
 
+  useEffect(() => {
+    // if (isDown && hideIds.length) {
+    //   const saveId = hideIds[hideIds.length - 1];
+    //   const newRippleArray = rippleArray.filter((item) => item.id === saveId);
+    //   setRippleArray(newRippleArray);
+    //   setHideIds([]);
+    //   return;
+    // }
+
+    if (!isDown && hideIds.length) {
+      const newRippleArray = rippleArray.filter((item) => !hideIds.includes(item.id));
+      setRippleArray(newRippleArray);
+      setHideIds([]);
+      return;
+    }
+    // if (hideIds.length) {
+    //   const newRippleArray = rippleArray.filter((item) => !hideIds.includes(item.id));
+    //   console.log(newRippleArray, 'newRippleArray');
+    //   setRippleArray(newRippleArray);
+    // }
+  }, [hideIds, isDown]);
+  console.log(rippleArray, 'rippleArray');
   return (
     <div onMouseDown={handleDown} onMouseUp={handleUp}>
       <div
@@ -108,7 +163,7 @@ const RipperWrapper: React.FC<RipperWrapperProps> = ({ children }) => {
           ...rippleWrapperStyle,
         }}
       >
-        {rippleArray.map((ripple) => ripple)}
+        {rippleArray.map((item) => item.rippleElement)}
       </div>
       {children}
     </div>
